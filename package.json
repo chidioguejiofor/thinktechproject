@@ -1,0 +1,12 @@
+{
+  "name": "event-api",
+  "version": "1.0.0",
+  "description": "This is a project that is used to learn how to work with node/express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Think Tech Team",
+  "license": "ISC"
+}
