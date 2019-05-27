@@ -17,7 +17,3 @@ server.post('/events',createEvent );
 // Update events -> PATCH /events/:event-id
 // Get event by id -> GET /events/:event-id
 // Get all events created by a particular /users/:user-id/events
-
-
-
-

@@ -1,12 +1,31 @@
 {
-  "name": "event-api",
+  "name": "ThinkTechProject",
   "version": "1.0.0",
-  "description": "This is a project that is used to learn how to work with node/express",
+  "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start:dev": "nodemon --exec npm start"
   },
-  "author": "Think Tech Team",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chidioguejiofor/thinktechproject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chidioguejiofor/thinktechproject/issues"
+  },
+  "homepage": "https://github.com/chidioguejiofor/thinktechproject#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
 }

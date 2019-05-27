@@ -1,4 +1,5 @@
 const users  = require('../db/users');
+const {client} = require('../app')
 
 let currentId = 1;
 function signupUserFn(req, resp){
@@ -12,7 +13,7 @@ function signupUserFn(req, resp){
                 message:`You forgot to input your ${userData}`
             })
         }
-        finalUserObj[userData] = user[userData]
+        finalUserObj[userData] = user[userData];
     }
 
     // if(!user.username){
@@ -58,13 +59,38 @@ function signupUserFn(req, resp){
     //         message: 'That username already exists',
     //     });
     // }
-    finalUserObj['id'] = currentId;
-    currentId++;
-    users.push(finalUserObj); // save user to db
-    resp.status(201).json({
-        data:finalUserObj,
-        message: 'You have successfully been registered to the app.'
-    });
+    // finalUserObj['id'] = currentId;
+    // currentId++;
+    // users.push(finalUserObj); // save user to db
+
+    client.query(`
+        INSERT INTO "User"(username, first_name, last_name, age, password)
+            VALUES('${finalUserObj.username}', '${finalUserObj.firstName}',
+             '${finalUserObj.lastName}', ${finalUserObj.age}, '${finalUserObj.password}')
+             
+        RETURNING id, username, first_name AS "firstName", last_name AS "lastName", age ;
+    `,
+    (err, res)=>{
+        console.log(err);
+        if(err){
+            if (err.code == 23505){
+                return resp.json({
+                        status:'error',
+                        message: 'That username already exists',
+                    });
+            }
+        } 
+        if(res.rowCount == 1){
+            resp.status(201).json({
+                data:res.rows[0],
+                message: 'You have successfully been registered to the app.'
+            });
+        }
+        
+    }
+    )
+
+    
 }
 
 

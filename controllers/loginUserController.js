@@ -1,36 +1,34 @@
 const users = require('../db/users');
 const jwt = require('jsonwebtoken');
+const {client} = require('../app')
 function loginUserFn(req, resp){
     const {username, password} = req.body;
-    
-    for(let user of users){
-        if(user.username == username && user.password == password){
-            
 
-            let userData = {
-                id: user.id,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                age: user.age,
-                
+        client.query(`
+            SELECT id, username, first_name AS "firstName", last_name AS "lastName", age
+             FROM "User"
+                WHERE username ='${username}' AND password ='${password}';
+        `, 
+        (err, res)=>{
+            if(res.rows.length == 0){
+                return resp.status(404).json({
+                        status: 'error',
+                        message: 'That username and password was not found',
+                    });
             }
-
-            let token = jwt.sign(userData, 'PRIVATE_KEY',{
+            const user = res.rows[0];
+            let token = jwt.sign(user, 'PRIVATE_KEY',{
                 expiresIn: '2d',
             } );
             return resp.status(200).json({
-                data: userData,
+                data: user,
                 message: 'Successfully logged in user',
                 token,
-            })
-        }
-    }
+            });
+        });
+    
 
-    return resp.status(404).json({
-        status: 'error',
-        message: 'That username and password was not found',
-    });
+    
 }
 
 module.exports = {

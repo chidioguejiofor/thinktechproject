@@ -1,6 +1,15 @@
 
 const express = require('express');
 const parser = require('body-parser');
+const {Client} = require('pg');
+
+const connString = 'postgresql://postgres@localhost:5432/events'
+const client = new Client({
+    connectionString: connString,
+});
+
+
+client.connect();
 
 
 server = express();
@@ -22,7 +31,7 @@ server.listen(5000, 'localhost', () =>{
 
 module.exports = {
     server,
+    client,
 }
-
 
 require('./routes')
